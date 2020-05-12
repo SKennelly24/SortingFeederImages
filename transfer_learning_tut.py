@@ -202,12 +202,11 @@ class ImageClassifier:
 		    ]),
 		}
 
-	def __init__(self):
+	def __init__(self, data_dir):
 		# Data augmentation and normalization for training
 		# Just normalization for validation
 		self.set_up_data_transforms()
 
-		data_dir = 'data/hymenoptera_data'
 		image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x),
 		                                          self.data_transforms[x])
 		                  for x in ['train', 'val']}
@@ -221,7 +220,7 @@ class ImageClassifier:
 
 
 def main():
-	classifier = ImageClassifier()
+	classifier = ImageClassifier('data/hymenoptera_data')
 	classifier.showDataChanges()
 	#classifier.fine_tune_model_train()
 	classifier.convnet_feature_extraction_train()

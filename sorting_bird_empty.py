@@ -40,7 +40,7 @@ def copy_files(source, dest_training, dest_testing, percentage):
 		
 
 
-def sort_training_testing():
+def sort_training_testing_bird_empty():
 	dates = ["2020-01-29 to 2020-02-20 DONE HH - filtered HH 06-04-20/", 
 	"2020-02-20 to 2020-03-04 DONE HH - filtered HH 07-04-20/",
 	"2020-03-04 to 2020-03-19 DONE KT - filtered RW 03-04-20/"]
@@ -57,6 +57,38 @@ def sort_training_testing():
 			print("")
 
 			copy_files(src_path, train_path, test_path, 80)
+
+def sort_train_test_bird_parakeet():
+	dates = ["2020-01-29 to 2020-02-20 DONE HH - filtered HH 06-04-20/", 
+	"2020-02-20 to 2020-03-04 DONE HH - filtered HH 07-04-20/",
+	"2020-03-04 to 2020-03-19 DONE KT - filtered RW 03-04-20/"]
+	sorts = [("NPP/Birds", "bird"), ("", "parakeet")]
+	for date in dates:
+		for path, type_file in sorts:
+			src_path = os.path.join("F010 [SBH]/", date, path)
+			test_path = os.path.join("Feeder10_bird_parakeet/testing/", type_file)
+			train_path = os.path.join("Feeder10_bird_parakeet/training/", type_file)
+			print(src_path)
+			print(test_path)
+			print(train_path)
+			print("")
+
+			copy_files(src_path, train_path, test_path, 80)
+
+def sort_bird_parakeet_empty(dates, dest_path):
+	sorts = [("NPP/Birds", "bird"), ("", "parakeet"), ("NPP/Empty", "empty")]
+	for date in dates:
+		for path, type_file in sorts:
+			src_path = os.path.join("F010 [SBH]/", date, path)
+			test_path = os.path.join(dest_path, "testing/", type_file)
+			train_path = os.path.join(dest_path, "training/", type_file)
+			print(src_path)
+			print(test_path)
+			print(train_path)
+			print("")
+
+			#copy_files(src_path, train_path, test_path, 80)
+
 
 def print_file_total(path, name):
 	files = [file for file in os.listdir(path) if os.path.isfile(os.path.join(path, file))]
@@ -85,10 +117,9 @@ def print_file_totals():
 
 
 
-def sort_testing_validation():
-	src_dir = "Feeder10_bird_empty/training/"
-	for type_file in ["bird", "empty"]:
-		src_path = src_path = os.path.join(src_dir, type_file)
+def sort_testing_validation(src_dir, type_files):
+	for type_file in type_files:
+		src_path = os.path.join(src_dir, type_file)
 		train_path = os.path.join(src_dir, "training_data/train/", type_file)
 		test_path = os.path.join(src_dir, "training_data/val/", type_file)
 		
@@ -97,10 +128,16 @@ def sort_testing_validation():
 		print(test_path)
 		print("")
 
-		copy_files(src_path, train_path, test_path, 80)
+		#copy_files(src_path, train_path, test_path, 80)
+
 
 def main():
-	print_file_totals()
+	dates = ["2020-01-29 to 2020-02-20 DONE HH - filtered HH 06-04-20/", 
+	"2020-02-20 to 2020-03-04 DONE HH - filtered HH 07-04-20/",
+	"2020-03-04 to 2020-03-19 DONE KT - filtered RW 03-04-20/"]
+	dest_path = "Feeder10_sorted/Feeder10_bird_parakeet_empty/"
+	sort_bird_parakeet_empty(dates, dest_path)
+	sort_testing_validation("Feeder10_sorted/Feeder10_bird_parakeet_empty/training/", ["bird", "parakeet", "empty"])
 	
 	
 main()
